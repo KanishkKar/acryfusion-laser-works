@@ -1,0 +1,527 @@
+{
+  "products": [
+    {
+        "id": "100",
+        "name": "Bluetooth Speaker",
+        "description": "High-quality acrylic sheet perfect for various applications",
+        "title": "Bluetooth Speaker",
+        "price": 299.99,
+        "image": "/images/products/speaker.jpg",
+        "imageAlt": "Bluetooth Speaker",
+        "tags": ["EDITOR'S CHOICE", "PREMIUM"],
+        "pointers": [
+          "great sound, made by you"
+        ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "electronics",
+            "images": [
+              { "image": "/images/products/kit-image1.png", "alt": "5 w speaker driver", "label": "5 w speaker driver" },
+              { "image": "/images/products/kit-image2.png", "alt": "5 w speaker driver", "label": "5 w speaker driver" },
+              { "image": "/images/products/kit-image3.png", "alt": "5 w speaker driver", "label": "5 w speaker driver" }
+            ]
+          },
+          {
+            "category": "Full Kit",
+            "subCategory": [
+              {
+                "category": "plywood",
+                "images": [
+                  { "image": "/images/products/mahogany-1.jpeg", "alt": "mahogany", "label": "mahogany" },
+                  { "image": "/images/products/mahogany-2.jpeg", "alt": "mahogany", "label": "mahogany" },
+                  { "image": "/images/products/kit-image3.png", "alt": "5 w speaker driver", "label": "mahogany" }
+                ]
+              },
+              {
+                "category": "acrylic",
+                "images": [
+                  { "image": "/images/products/oak-1.jpeg", "alt": "oak", "label": "oak" },
+                  { "image": "/images/products/oak-2.jpeg", "alt": "oak", "label": "oak" },
+                  { "image": "/images/products/kit-image3.png", "alt": "5 w speaker driver", "label": "oak" }
+                ]
+              }
+            ]
+          }
+        ],
+        "specs": {
+          "info": [
+            "bluetooth 5.0",
+            "10 W of power",
+            "frequency response 60 Hz - 20 kHz",
+            "speaker size 186 45 61 mm",
+            "speaker weight 200 g",
+            "16 hours playback time",
+            "3 hour charging time",
+            "USB-C charging (compatible with PD, QC, regular charger)",
+            "custom dsp equalized sound",
+            "premium oak/mahogany wood",
+            "water resistant drivers and passive"
+          ],
+          "images": [
+            { "image": "/images/products/speaker-driver.png", "alt": "5 w speaker driver", "label": "5 w speaker driver" },
+            { "image": "/images/products/s2_v2.png", "alt": "passive radiator", "label": "passive radiator" },
+            { "image": "/images/products/s3_v2.png", "alt": "bluetooth&amplifier module", "label": "bluetooth&amplifier module" },
+            { "image": "/images/products/s4_v2.png", "alt": "battery charging board", "label": "battery charging board" },
+            { "image": "/images/products/s5_v2.png", "alt": "usb-c socket", "label": "usb-c socket" },
+            { "image": "/images/products/s6_v2.png", "alt": "10 V 1000 µF capacitor", "label": "10 V 1000 µF capacitor" },
+            { "image": "/images/products/s7_v2.png", "alt": "dc-dc step-up module", "label": "dc-dc step-up module" },
+            { "image": "/images/products/s8_v2.png", "alt": "battery protection board", "label": "battery protection board" },
+            { "image": "/images/products/s9_v2.png", "alt": "rubber feet", "label": "rubber feet" },
+            { "image": "/images/products/s10_v2.png", "alt": "3 mm green led", "label": "3 mm green led" },
+            { "image": "/images/products/s11_v2.png", "alt": "slide switch", "label": "slide switch" },
+            { "image": "/images/products/s12_v2.png", "alt": "500 Ω resistor", "label": "500 Ω resistor" },
+            { "image": "/images/products/s13_v2.png", "alt": "screws for plywood frames", "label": "screws for plywood frames" },
+            { "image": "/images/products/s14_v2.png", "alt": "3 mm thick laser-cut plywood frames", "label": "3 mm thick laser-cut plywood frames" },
+            { "image": "/images/products/s15_v201.png", "alt": "4 mm thick laser-cut oak panels", "label": "4 mm thick laser-cut oak panels" },
+            { "image": "/images/products/s16_v2.png", "alt": "4 mm thick laser-cut mahogany panels", "label": "4 mm thick laser-cut mahogany panels" }
+          ]
+        },
+        "howTo": {
+          "video": {
+            "image": "/images/products/speaker2.jpg",
+            "link": "https://www.youtube.com/watch?v=a43LXqRwQC8"
+          },
+          "schematic": {
+            "image": "/images/products/schematic.png",
+            "link": "/files/schematic.pdf",
+            "name": "schematic.pdf"
+          }
+        },
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Electronics",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "101",
+        "name": "Virtual Reality Goggle",
+        "description": "Laser Cut Christmas Tree V2.0 Standard Template",
+        "title": "Virtual Reality Goggle",
+        "price": "525.55",
+        "image": "/images/products/google-cardboard-vr-headset-v2.0-standard-template.jpg",
+        "imageAlt": "Google cardboard virtual reality goggle based on v2.0 standard template.",
+        "tags": ["NEW", "EDITOR'S CHOICE"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/google-cardboard-vr-headset-v2.0-standard-template.jpg", "alt": "VR goggle front view", "label": "Front View" },
+              { "image": "/images/products/google-cardboard-vr-headset-v2.0-standard-template.jpg", "alt": "VR goggle side view", "label": "Side View" },
+              { "image": "/images/products/google-cardboard-vr-headset-v2.0-standard-template.jpg", "alt": "VR goggle back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/google-cardboard-vr-headset-v2.0-standard-template.jpg", "alt": "VR goggle in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "specs": {
+          "info": [],
+          "images": []
+        },
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Electronics",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "102",
+        "name": "Cardboard Phone Holder",
+        "description": "Cardboard phone holder",
+        "title": "Cardboard Phone Holder",
+        "price": "225.55",
+        "image": "/images/products/phone-holder.jpg",
+        "imageAlt": "Laser cut cardboard phone holder.",
+        "href": "#",
+        "sortId": "2",
+        "tags": ["POPULAR"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/phone-holder.jpg", "alt": "Phone holder front view", "label": "Front View" },
+              { "image": "/images/products/phone-holder.jpg", "alt": "Phone holder side view", "label": "Side View" },
+              { "image": "/images/products/phone-holder.jpg", "alt": "Phone holder back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/phone-holder.jpg", "alt": "Phone holder in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Accessories",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "103",
+        "name": "Tangram Puzzle",
+        "description": "Tangram Patterns for Creative Puzzle Making",
+        "title": "Tangram Puzzle",
+        "price": "500.00",
+        "image": "/images/products/tangram-puzzle.jpg",
+        "imageAlt": "Printable Tangram patterns for creative puzzle making.",
+        "href": "#",
+        "sortId": "3",
+        "tags": ["NEW"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/tangram-puzzle.jpg", "alt": "Tangram puzzle pieces", "label": "Puzzle Pieces" },
+              { "image": "/images/products/tangram-puzzle.jpg", "alt": "Tangram puzzle assembled", "label": "Assembled" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/tangram-puzzle.jpg", "alt": "Tangram puzzle in use", "label": "In Use" },
+              { "image": "/images/products/tangram-puzzle.jpg", "alt": "Tangram puzzle patterns", "label": "Patterns" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Toys",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "104",
+        "name": "Laset Cut Coasters",
+        "description": "3 in 1 Laset Cut Coasters",
+        "title": "Laset Cut Coasters",
+        "price": "600.00",
+        "image": "/images/products/3-in-1-laser-cut-coasters.jpg",
+        "imageAlt": "Colorful laseR cut coasters.",
+        "href": "#",
+        "sortId": "4",
+        "tags": ["POPULAR", "NEW"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/3-in-1-laser-cut-coasters.jpg", "alt": "Coasters front view", "label": "Front View" },
+              { "image": "/images/products/3-in-1-laser-cut-coasters.jpg", "alt": "Coasters side view", "label": "Side View" },
+              { "image": "/images/products/3-in-1-laser-cut-coasters.jpg", "alt": "Coasters back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/3-in-1-laser-cut-coasters.jpg", "alt": "Coasters in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Accessories",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "105",
+        "name": "Key Holder Box",
+        "description": "Laser Cut Plywood Key Holder",
+        "title": "Key Holder Box",
+        "price": "800.99",
+        "image": "/images/products/diy-plywood-key-box-holder.jpg",
+        "imageAlt": "Laser cut plywood key holder.",
+        "href": "#",
+        "sortId": "5",
+        "tags": ["NEW"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/diy-plywood-key-box-holder.jpg", "alt": "Key holder front view", "label": "Front View" },
+              { "image": "/images/products/diy-plywood-key-box-holder.jpg", "alt": "Key holder side view", "label": "Side View" },
+              { "image": "/images/products/diy-plywood-key-box-holder.jpg", "alt": "Key holder back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/diy-plywood-key-box-holder.jpg", "alt": "Key holder in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Accessories",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "106",
+        "name": "Open Box",
+        "description": "Simple open box",
+        "title": "Open Box",
+        "price": "225.55",
+        "image": "/images/products/open-box.jpg",
+        "imageAlt": "Box with top and front open.",
+        "href": "#",
+        "sortId": "6",
+        "tags": ["NEW", "EDITOR'S CHOICE"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/open-box.jpg", "alt": "Open box front view", "label": "Front View" },
+              { "image": "/images/products/open-box.jpg", "alt": "Open box front view", "label": "Front View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/open-box.jpg", "alt": "Open box in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Storage",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "107",
+        "name": "Stackable Storage Box",
+        "description": "Laser Cut Stackable Mdf Storage Box Idea",
+        "title": "Stackable Storage Box",
+        "price": "555.55",
+        "image": "/images/products/stackable-mdf-storage-box.jpg",
+        "imageAlt": "Laser cut stackable mdf storage box.",
+        "href": "#",
+        "sortId": "7",
+        "tags": ["NEW"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/stackable-mdf-storage-box.jpg", "alt": "Storage box front view", "label": "Front View" },
+              { "image": "/images/products/stackable-mdf-storage-box.jpg", "alt": "Storage box side view", "label": "Side View" },
+              { "image": "/images/products/stackable-mdf-storage-box.jpg", "alt": "Storage box back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/stackable-mdf-storage-box.jpg", "alt": "Storage box in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Storage",
+        "stock": 100,
+        "rating": 4.8
+    },
+    {
+        "id": "108",
+        "name": "Christmas Tree",
+        "description": "Laser Cut Christmas Tree",
+        "title": "Christmas Tree",
+        "price": "999.47",
+        "image": "/images/products/wood-christmas-tree.jpg",
+        "imageAlt": "Laser cut wooden christmas tree.",
+        "href": "#",
+        "sortId": "8",
+        "tags": ["EDITOR'S CHOICE"],
+        "pointers": [
+            "Hand cut and sewn locally",
+            "Dyed with our proprietary colors",
+            "Pre-washed & pre-shrunk",
+            "Ultra-soft 100% cotton"
+          ],
+        "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+        "images": [
+          {
+            "category": "views",
+            "images": [
+              { "image": "/images/products/wood-christmas-tree.jpg", "alt": "Christmas tree front view", "label": "Front View" },
+              { "image": "/images/products/wood-christmas-tree.jpg", "alt": "Christmas tree side view", "label": "Side View" },
+              { "image": "/images/products/wood-christmas-tree.jpg", "alt": "Christmas tree back view", "label": "Back View" }
+            ]
+          },
+          {
+            "category": "usage",
+            "images": [
+              { "image": "/images/products/wood-christmas-tree.jpg", "alt": "Christmas tree in use", "label": "In Use" }
+            ]
+          }
+        ],
+        "materials": [
+          { "name": "Wood", "class": "bg-white", "selectedClass": "ring-slate-400" },
+          { "name": "Cardboard", "class": "bg-slate-200", "selectedClass": "ring-slate-400" }
+        ],
+        "sizes": [
+          { "name": "XXS", "inStock": false },
+          { "name": "XS", "inStock": true },
+          { "name": "S", "inStock": true },
+          { "name": "M", "inStock": true },
+          { "name": "L", "inStock": true },
+          { "name": "XL", "inStock": true },
+          { "name": "2XL", "inStock": true },
+          { "name": "3XL", "inStock": true }
+        ],
+        "category": "Decor",
+        "stock": 100,
+        "rating": 4.8
+    }
+  ]
+} 

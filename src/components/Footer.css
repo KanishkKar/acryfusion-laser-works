@@ -1,0 +1,26 @@
+/* Footer styles */
+.site-footer {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; /* Pushes footer to the bottom */
+  background-color: #f8f8f8; /* Optional: Add a subtle background */
+  font-family: 'TVA2012', sans-serif;
+}
+
+.contact-container {
+  font-size: 0.9rem;
+  margin: 0.2rem 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links img {
+  width: 24px;
+  height: 24px;
+  display: block; /* Prevents extra space below images */
+} 

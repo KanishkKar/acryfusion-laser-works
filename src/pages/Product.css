@@ -1,0 +1,269 @@
+
+/* Product section styles */
+.product-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+/* Product display styles */
+.product-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.product-display > div {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Product carousel styles */
+.product.carousel {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+}
+.product.arrow.left {
+  left: 20px;
+  top: 50%;
+}
+.product.arrow.right {
+  right: 20px;
+  top: 50%;
+}
+.product.dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.product-image {
+  width: 100%;
+  height: 450px;
+  display: block;
+  background-color: #f0f0f0;
+  object-fit: cover;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  height: 100%;
+}
+
+.product-options-container {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-options {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.subcategory-options {
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  overflow: hidden;
+  display: flex;
+  width: fit-content;
+  margin: 1rem auto 0;
+}
+
+.option.button {
+  width: 200px;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.option.button:first-child {
+  border-right: 1px solid #ccc;
+}
+.option.button:hover {
+  color:#000
+}
+.option.button.active {
+  background-color: black;
+  color: white;
+}
+
+.price-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.price {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-family: 'TVA2012', sans-serif;
+}
+
+.buy.button {
+  display: inline-block;
+  padding: 0.5rem 3rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.buy.button:hover {
+  background-color: #999;
+  color: white;
+  border-color: #999;
+}
+
+.shipping-disclaimer {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.how-to-container {
+  width: 100%;
+}
+
+.how-to.button {
+  display: inline-block;
+  padding: 0.5rem 3rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+/* Product specs section styles */
+.specs-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  grid-column: 1 / -1;
+  min-height: 400px;
+}
+
+.specs-display > div {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2rem;
+}
+
+.specs-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #666;
+  color: white;
+}
+.specs-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d0d0d0;
+  line-height: 1.6;
+}
+.specs-list li {
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.specs-list.bullet {
+  color: #fff;
+}
+
+/* Product specs carousel styles */
+.specs.carousel {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+}
+.specs.arrow {
+  padding: 0.5rem;
+  z-index: 2;
+}
+.specs.arrow.prev {
+  left: 20px;
+}
+.specs.arrow.next {
+  right: 20px;
+}
+
+.specs-image {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.specs-label {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.specs.dots {
+  margin-top: 20px;
+}
+
+/* Info Section */
+.shipping-info-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  border-top: 1px solid #eee;
+  background-color: #6a737b;
+  color: #f0f0f0;
+  max-width: 100%;
+}
+
+.info-column {
+  flex: 1;
+  max-width: 30%;
+}
+.info-column h3 {
+  font-family: 'TVA2012', sans-serif;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: #ffffff;
+}
+.info-column p,
+.info-column li {
+  font-size: 0.9rem;
+  color: #d0d0d0;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}

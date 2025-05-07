@@ -1,0 +1,40 @@
+.login-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.login-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.login.button {
+  padding: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .login-container h1 {
+    font-size: 2rem;
+  }
+} 

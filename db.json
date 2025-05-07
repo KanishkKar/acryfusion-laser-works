@@ -1,0 +1,313 @@
+{
+  "products": [
+    {
+      "id": "100001",
+      "name": "Bluetooth Speaker",
+      "description": "High-quality acrylic sheet perfect for various applications",
+      "title": "Bluetooth Speaker",
+      "heroImage": {
+        "src": "/images/products/speaker.jpg",
+        "alt": "Bluetooth Speaker"
+      },
+      "tags": [
+        "EDITOR'S CHOICE",
+        "PREMIUM"
+      ],
+      "pointers": [
+        "great sound, made by you"
+      ],
+      "details": "The 6-Pack includes two black, two white, and two heather slate Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming 'Charcoal Gray' limited release.",
+      "specs": {
+        "info": [
+          "bluetooth 5.0",
+          "10 W of power",
+          "frequency response 60 Hz - 20 kHz",
+          "speaker size 186 45 61 mm",
+          "speaker weight 200 g",
+          "16 hours playback time",
+          "3 hour charging time",
+          "USB-C charging (compatible with PD, QC, regular charger)",
+          "custom dsp equalized sound",
+          "premium oak/mahogany wood",
+          "water resistant drivers and passive"
+        ],
+        "images": [
+          {
+            "image": "/images/products/speaker-driver.png",
+            "alt": "5 w speaker driver",
+            "label": "5 w speaker driver"
+          },
+          {
+            "image": "/images/products/s2_v2.png",
+            "alt": "passive radiator",
+            "label": "passive radiator"
+          },
+          {
+            "image": "/images/products/s3_v2.png",
+            "alt": "bluetooth&amplifier module",
+            "label": "bluetooth&amplifier module"
+          },
+          {
+            "image": "/images/products/s4_v2.png",
+            "alt": "battery charging board",
+            "label": "battery charging board"
+          },
+          {
+            "image": "/images/products/s5_v2.png",
+            "alt": "usb-c socket",
+            "label": "usb-c socket"
+          },
+          {
+            "image": "/images/products/s6_v2.png",
+            "alt": "10 V 1000 µF capacitor",
+            "label": "10 V 1000 µF capacitor"
+          },
+          {
+            "image": "/images/products/s7_v2.png",
+            "alt": "dc-dc step-up module",
+            "label": "dc-dc step-up module"
+          },
+          {
+            "image": "/images/products/s8_v2.png",
+            "alt": "battery protection board",
+            "label": "battery protection board"
+          },
+          {
+            "image": "/images/products/s9_v2.png",
+            "alt": "rubber feet",
+            "label": "rubber feet"
+          },
+          {
+            "image": "/images/products/s10_v2.png",
+            "alt": "3 mm green led",
+            "label": "3 mm green led"
+          },
+          {
+            "image": "/images/products/s11_v2.png",
+            "alt": "slide switch",
+            "label": "slide switch"
+          },
+          {
+            "image": "/images/products/s12_v2.png",
+            "alt": "500 Ω resistor",
+            "label": "500 Ω resistor"
+          },
+          {
+            "image": "/images/products/s13_v2.png",
+            "alt": "screws for plywood frames",
+            "label": "screws for plywood frames"
+          },
+          {
+            "image": "/images/products/s14_v2.png",
+            "alt": "3 mm thick laser-cut plywood frames",
+            "label": "3 mm thick laser-cut plywood frames"
+          },
+          {
+            "image": "/images/products/s15_v201.png",
+            "alt": "4 mm thick laser-cut oak panels",
+            "label": "4 mm thick laser-cut oak panels"
+          },
+          {
+            "image": "/images/products/s16_v2.png",
+            "alt": "4 mm thick laser-cut mahogany panels",
+            "label": "4 mm thick laser-cut mahogany panels"
+          }
+        ]
+      },
+      "howTo": {
+        "video": {
+          "image": "/images/products/speaker2.jpg",
+          "link": "https://www.youtube.com/watch?v=a43LXqRwQC8"
+        },
+        "schematic": {
+          "image": "/images/products/schematic.png",
+          "link": "/files/schematic.pdf",
+          "name": "schematic.pdf"
+        }
+      },
+      "options": [
+        {
+          "name": "Electronics",
+          "groupName": "Electronics",
+          "sizes": [
+            {
+              "name": "OS",
+              "price": 499,
+              "stock": 10
+            }
+          ],
+          "inStock": true,
+          "images": [
+            {
+              "image": "/images/products/speaker-driver.png",
+              "alt": "5 w speaker driver",
+              "label": "5 w speaker driver"
+            },
+            {
+              "image": "/images/products/s2_v2.png",
+              "alt": "passive radiator",
+              "label": "passive radiator"
+            },
+            {
+              "image": "/images/products/s3_v2.png",
+              "alt": "bluetooth&amplifier module",
+              "label": "bluetooth&amplifier module"
+            },
+            {
+              "image": "/images/products/s4_v2.png",
+              "alt": "battery charging board",
+              "label": "battery charging board"
+            }
+          ]
+        },
+        {
+          "name": "Plywood",
+          "groupName": "Full Kit",
+          "sizes": [
+            {
+              "name": "OS",
+              "price": 799,
+              "stock": 10
+            }
+          ],
+          "inStock": true,
+          "images": [
+            {
+              "image": "/images/products/mahogany-1.jpeg",
+              "alt": "mahogany",
+              "label": "mahogany"
+            },
+            {
+              "image": "/images/products/mahogany-2.jpeg",
+              "alt": "mahogany",
+              "label": "mahogany"
+            },
+            {
+              "image": "/images/products/kit-image3.png",
+              "alt": "5 w speaker driver",
+              "label": "mahogany"
+            }
+          ]
+        },
+        {
+          "name": "Acrylic",
+          "groupName": "Full Kit",
+          "sizes": [
+            {
+              "name": "OS",
+              "price": 899,
+              "stock": 5
+            }
+          ],
+          "inStock": true,
+          "images": [
+            {
+              "image": "/images/products/oak-1.jpeg",
+              "alt": "oak",
+              "label": "oak"
+            },
+            {
+              "image": "/images/products/oak-2.jpeg",
+              "alt": "oak",
+              "label": "oak"
+            },
+            {
+              "image": "/images/products/kit-image3.png",
+              "alt": "5 w speaker driver",
+              "label": "oak"
+            }
+          ]
+        }
+      ],
+      "category": "Electronics"
+    },
+    {
+      "id": "100002",
+      "name": "Tirupati Perumal Undiyal",
+      "title": "Wooden Undiyal",
+      "description": "This is a wooden undiyal (offering box) with a laser-engraved front image of Lord Perumal (Venkateswara), beautifully designed in a temple-inspired structure.",
+      "details": "The intricate detailing of the engraving enhances its spiritual and decorative appeal, making it ideal for use in homes or places of worship. The front God image can be changed to your own portrait photo or another God image, such as Murugan, Vinayagar, Mariamman, Lakshmi, etc.",
+      "pointers": [
+        "Customization is available"
+      ],
+      "tags": [
+        "NEW",
+        "POPULAR"
+      ],
+      "heroImage": {
+        "src": "blob:http://localhost:3000/3deecac9-d699-4012-81f9-13187bef7400",
+        "alt": "tirupati_perumal_undiyal.png"
+      },
+      "howTo": {
+        "video": {
+          "image": "blob:http://localhost:3000/a1f459e5-1a83-47a8-8b9d-a8a737a0406d",
+          "link": ""
+        },
+        "schematic": {
+          "image": "",
+          "link": "",
+          "name": ""
+        }
+      },
+      "specs": {
+        "info": [
+          "Height :  7 Inches",
+          "width  :   5 Inches",
+          "Depth :   2 Inches",
+          "Thickness : 3mm",
+          "Disclaimer: The images shown are for illustration purposes only. ",
+          "The final product may vary slightly in appearance due to variations in material, engraving, or customization."
+        ],
+        "images": [
+          {
+            "image": "blob:http://localhost:3000/83075445-647f-488e-9e73-2ef3e275be88",
+            "alt": "undiyal_7X5.png",
+            "label": "undiyal_7X5.png"
+          },
+          {
+            "image": "blob:http://localhost:3000/cab2fec4-c37d-4209-afad-04e6396a3080",
+            "alt": "undiyal_12X9.png",
+            "label": "undiyal_12X9.png"
+          }
+        ]
+      },
+      "options": [
+        {
+          "name": "Birch Plywood",
+          "groupName": "Storage",
+          "sizes": [
+            {
+              "name": "7x9",
+              "price": 299,
+              "stock": 20
+            },
+            {
+              "name": "12x9",
+              "price": 599,
+              "stock": ""
+            }
+          ],
+          "inStock": true,
+          "images": [
+            {
+              "image": "blob:http://localhost:3000/35e6ab69-1c45-46cb-84f3-2f870c285a47",
+              "alt": "tirupati_perumal_undiyal.png",
+              "label": "tirupati_perumal_undiyal.png"
+            },
+            {
+              "image": "blob:http://localhost:3000/53bd116b-f00a-406b-a3b4-ec32cc2ed39e",
+              "alt": "undiyal_left.png",
+              "label": "undiyal_left.png"
+            },
+            {
+              "image": "blob:http://localhost:3000/5db014d8-bc20-4a05-aa19-837e95324168",
+              "alt": "undiyal_right.png",
+              "label": "undiyal_right.png"
+            }
+          ]
+        }
+      ],
+      "category": "Storage"
+    }
+  ]
+}

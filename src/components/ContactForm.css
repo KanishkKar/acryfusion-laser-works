@@ -1,0 +1,80 @@
+.contact.modal-content {
+  position: relative;
+}
+
+.contact.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.contact-form-container {
+  margin-bottom: 2rem;
+}
+
+.submit.button {
+  padding: 0.8rem 2rem;
+  width: 100%;
+  margin-top: .5rem;
+}
+
+.status-message {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border-radius: 4px;
+  text-align: center;
+  font-family: 'Raleway-Regular', sans-serif;
+}
+
+.status-message.loading {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.contact-info {
+  border-top: 1px solid #ddd;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.info-item {
+  margin-bottom: 1rem;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item p {
+  font-family: 'Raleway-Regular', sans-serif;
+  color: #000;
+  margin: 0;
+}
+
+.info-item span {
+  font-family: 'Raleway-Bold', sans-serif;
+  color: #666;
+  margin-bottom: 0.3rem;
+}
+
+
+@media (max-width: 992px) {
+  .contact.modal-content {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .contact-form-container h2 {
+    font-size: 1.5rem;
+  }
+} 

@@ -1,0 +1,1 @@
+export const PRODUCT_IMAGES_PATH = '/images/products'; 

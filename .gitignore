@@ -1,0 +1,34 @@
+# ========================
+# Node.js dependencies
+/node_modules
+
+# ========================
+# Build outputs
+/dist                # Vite production build
+/build              # In case of future CRA use
+
+# ========================
+# Environment variables
+.env
+.env.*.local
+
+# ========================
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========================
+# Editor/IDE folders
+.vscode/            # Cursor and VS Code settings
+.idea/              # JetBrains IDEs
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.code-workspace
+
+# ========================
+# System and misc files
+.DS_Store           # macOS
+Thumbs.db           # Windows

@@ -1,0 +1,272 @@
+/* Font declarations */
+@font-face {
+  font-family: 'TVA2012';
+  src: url('./assets/fonts/tva/tva2012.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Raleway-Thin';
+  src: url('./assets/fonts/Raleway/Raleway-Thin.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Raleway-Regular';
+  src: url('./assets/fonts/Raleway/Raleway-Regular.ttf') format('truetype');
+} 
+@font-face {
+  font-family: 'Raleway-Bold';
+  src: url('./assets/fonts/Raleway/Raleway-ExtraBold.ttf') format('truetype');
+}
+
+/* Ensure wrapper and body allow content to fill height */
+html, #root {
+  height: 100%;
+}
+
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Raleway-Regular', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  height: 100%;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+h1, h2 {
+  font-family: 'TVA2012', sans-serif;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 80px; /* Account for fixed header */
+  overflow-y: auto;
+}
+
+/* Container styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Button styles */
+.button {
+  background-color: #000;
+  color: white;
+  border-radius: 25px;
+  font-family: 'TVA2012', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  border: 2px solid;
+}
+.button:hover {
+  background-color: #333;
+}
+.button.white {
+  background-color: white;
+  color: #000;
+}
+.button.white:hover {
+  background-color: #000;
+  color: white;
+}
+.button.black {
+  background-color: #000;
+  color: white;
+  border-color: #000;
+}
+.button.black:hover {
+  background-color: white;
+  color: #000;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav {
+  font-family: 'TVA2012', sans-serif;
+  transition: color 0.3s;
+}
+.nav.white {
+  color: white;
+}
+.nav.black {
+  color: #000;
+}
+.nav:hover {
+  color: #444;
+}
+
+/* Carousel styles */
+.carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* Carousel arrow styles */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+.arrow:hover {
+  color: #666;
+}
+
+/* Carousel dot styles */
+.dots {
+  display: flex;
+  gap: 8px;
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: #ccc;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.dot.active {
+  background: #000;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: 'Raleway-Bold', sans-serif;
+  color: #666;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: 'Raleway-Regular', sans-serif;
+  font-size: 1rem;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-group-section { 
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+  margin-bottom: 1rem;
+}
+.form-group .form-group-section label {
+  color: #555;
+}
+.form-group-section h4 {
+  font-family: 'Raleway-Bold', sans-serif;
+  font-size: 1rem;
+  color: #555;
+}
+
+.input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.input:focus {
+  outline: 2px solid black;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #000;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .button {
+    padding: 0.6rem 1.5rem;
+  }
+} 
