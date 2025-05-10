@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllProducts, createProduct, updateProduct, deleteProduct, uploadFile, getFileData } from '../services/productService';
-import { PRODUCT_IMAGES_PATH } from '../config';
+import { getAllProducts, createProduct, updateProduct, deleteProduct } from '../services/productService';
 import './AdminDashboard.css';
 
 export default function AdminDashboard() {
@@ -76,6 +75,30 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleFileUpload = async (file, imagePath, productId) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('imagePath', imagePath);
+    formData.append('productId', productId);
+
+    try {
+      const response = await fetch('http://localhost:3001/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -83,106 +106,68 @@ export default function AdminDashboard() {
       const uploadedFiles = {};
       
       // Upload hero image if pending
-      if (pendingFiles.heroImage) {
-        const data = await uploadFile(pendingFiles.heroImage);
-        uploadedFiles.heroImage = data.filename;
+      if (pendingFiles.heroImage && selectedProduct.heroImagePath) {
+        const data = await handleFileUpload(pendingFiles.heroImage, selectedProduct.heroImagePath, selectedProduct.id);
+        uploadedFiles.heroImage = data;
       }
 
       // Upload how to video image if pending
-      if (pendingFiles.howToVideo) {
-        const data = await uploadFile(pendingFiles.howToVideo);
-        uploadedFiles.howToVideo = data.filename;
+      if (pendingFiles.howToVideo && selectedProduct.videoImagePath) {
+        const data = await handleFileUpload(pendingFiles.howToVideo, selectedProduct.videoImagePath, selectedProduct.id);
+        uploadedFiles.howToVideo = data;
       }
 
       // Upload how to schematic image if pending
-      if (pendingFiles.howToSchematic) {
-        const data = await uploadFile(pendingFiles.howToSchematic);
-        uploadedFiles.howToSchematic = data.filename;
+      if (pendingFiles.howToSchematic && selectedProduct.schematicImagePath) {
+        const data = await handleFileUpload(pendingFiles.howToSchematic, selectedProduct.schematicImagePath, selectedProduct.id);
+        uploadedFiles.howToSchematic = data;
       }
 
       // Upload specs images if pending
-      if (pendingFiles.specsImages.length > 0) {
-        const uploadPromises = pendingFiles.specsImages.map(file => uploadFile(file));
+      if (pendingFiles.specsImages.length > 0 && selectedProduct.specsImagePath) {
+        const uploadPromises = pendingFiles.specsImages.map(file => 
+          handleFileUpload(file, selectedProduct.specsImagePath, selectedProduct.id)
+        );
         uploadedFiles.specsImages = await Promise.all(uploadPromises);
       }
 
       // Upload option images if pending
       for (const [optionIndex, files] of Object.entries(pendingFiles.optionImages)) {
         if (files.length > 0) {
-          const uploadPromises = files.map(file => uploadFile(file));
+          const uploadPromises = files.map(file => 
+            handleFileUpload(file, `option_${optionIndex}`, selectedProduct.id)
+          );
           uploadedFiles[`optionImages_${optionIndex}`] = await Promise.all(uploadPromises);
         }
       }
 
-      // Update the product with uploaded file paths
-      const updatedProduct = { ...selectedProduct };
+      // Prepare product data for Google Sheets
+      const productData = {
+        ...selectedProduct,
+        product_id: selectedProduct.id,
+        product_name: selectedProduct.name,
+        product_title: selectedProduct.title,
+        product_description: selectedProduct.description,
+        specs_info: selectedProduct.specs?.info?.join(','),
+        specs_image_path: uploadedFiles.specsImages?.[0]?.imagePath || selectedProduct.specs?.images?.[0]?.label || '',
+        video_image_path: uploadedFiles.howToVideo?.imagePath || selectedProduct.howTo?.video?.label || '',
+        schematic_image_path: uploadedFiles.howToSchematic?.imagePath || selectedProduct.howTo?.schematic?.label || '',
+        how_to_video_link: selectedProduct.howTo?.video?.link || '',
+        how_to_schematic_file: selectedProduct.howTo?.schematic?.link || '',
+        tags: selectedProduct.tags?.join(','),
+        pointers: selectedProduct.pointers?.join(','),
+        category: selectedProduct.category
+      };
 
-      if (uploadedFiles.heroImage) {
-        updatedProduct.heroImage = {
-          ...updatedProduct.heroImage,
-          src: `${PRODUCT_IMAGES_PATH}/${uploadedFiles.heroImage}`,
-          alt: pendingFiles.heroImage.name
-        };
-      }
-
-      if (uploadedFiles.howToVideo) {
-        updatedProduct.howTo = {
-          ...updatedProduct.howTo,
-          video: {
-            ...updatedProduct.howTo?.video,
-            src: `${PRODUCT_IMAGES_PATH}/${uploadedFiles.howToVideo}`
-          }
-        };
-      }
-
-      if (uploadedFiles.howToSchematic) {
-        updatedProduct.howTo = {
-          ...updatedProduct.howTo,
-          schematic: {
-            ...updatedProduct.howTo?.schematic,
-            src: `${PRODUCT_IMAGES_PATH}/${uploadedFiles.howToSchematic}`,
-            name: pendingFiles.howToSchematic.name
-          }
-        };
-      }
-
-      if (uploadedFiles.specsImages.length > 0) {
-        const newImages = uploadedFiles.specsImages.map((filename, index) => ({
-          src: `${PRODUCT_IMAGES_PATH}/${filename}`,
-          alt: pendingFiles.specsImages[index].name,
-          label: pendingFiles.specsImages[index].name
-        }));
-        updatedProduct.specs = {
-          ...updatedProduct.specs,
-          images: [...(updatedProduct.specs?.images || []), ...newImages]
-        };
-      }
-
-      for (const [key, filenames] of Object.entries(uploadedFiles)) {
-        if (key.startsWith('optionImages_')) {
-          const optionIndex = parseInt(key.split('_')[1]);
-          const newImages = filenames.map((filename, index) => ({
-            src: `${PRODUCT_IMAGES_PATH}/${filename}`,
-            alt: pendingFiles.optionImages[optionIndex][index].name,
-            label: pendingFiles.optionImages[optionIndex][index].name
-          }));
-          updatedProduct.options[optionIndex].images = [
-            ...(updatedProduct.options[optionIndex].images || []),
-            ...newImages
-          ];
-        }
-      }
-
-      // Save the product
       if (isEditing) {
-        const savedProduct = await updateProduct(updatedProduct.id, updatedProduct);
+        const savedProduct = await updateProduct(productData.id, productData);
         const updatedProducts = products.map(p => 
-          p.id === updatedProduct.id ? savedProduct : p
+          p.id === productData.id ? savedProduct : p
         );
         setProducts(updatedProducts);
         setFilteredProducts(updatedProducts);
       } else {
-        const newProduct = { ...updatedProduct, id: generateNewId() };
+        const newProduct = { ...productData, id: generateNewId() };
         const createdProduct = await createProduct(newProduct);
         setProducts([...products, createdProduct]);
         setFilteredProducts([...products, createdProduct]);
@@ -208,30 +193,6 @@ export default function AdminDashboard() {
   const closeForm = () => {
     setSelectedProduct(null);
     setIsEditing(false);
-  };
-
-  const handleFileUpload = async (file) => {
-    // Create a FormData object
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      // Send the file to the server
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Upload failed');
-      }
-
-      const data = await response.json();
-      return data.filename; // Return just the filename
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      throw error;
-    }
   };
 
   if (loading) {
@@ -266,22 +227,15 @@ export default function AdminDashboard() {
                 details: '',
                 pointers: [],
                 tags: [],
-                heroImage: { src: '', alt: '' },
-                howTo: {
-                  video: { image: '', link: '' },
-                  schematic: { image: '', link: '', name: '' }
-                },
+                category: '',
                 specs: {
                   info: [],
                   images: []
                 },
-                options: [{ 
-                  name: '', 
-                  groupName: '', 
-                  sizes: [{ name: '', price: '', stock: '' }], 
-                  inStock: true,
-                  images: [] 
-                }] 
+                howTo: {
+                  video: { link: '', label: '' },
+                  schematic: { link: '', label: '', name: '' }
+                }
               });
               setIsEditing(false);
             }}
@@ -297,7 +251,6 @@ export default function AdminDashboard() {
               <th>Name</th>
               <th>Tags</th>
               <th>Category</th>
-              <th>Stock</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -308,7 +261,6 @@ export default function AdminDashboard() {
                 <td>{product.name}</td>
                 <td>{product.tags.join(', ')}</td>
                 <td>{product.category}</td>
-                <td>{product.options ? product.options.reduce((total, option) => total + option.sizes.reduce((sum, size) => sum + (parseInt(size.stock) || 0), 0), 0) : 0}</td>
                 <td>
                   <button onClick={() => handleEdit(product)} className="edit button">
                     Edit
@@ -405,7 +357,8 @@ export default function AdminDashboard() {
               <div className="form-group">
                 <label htmlFor="category">Category</label>
                 <input
-                  id="text"
+                  type="text"
+                  id="category"
                   value={selectedProduct.category || ''}
                   onChange={(e) => setSelectedProduct({...selectedProduct, category: e.target.value})}
                   required
@@ -415,26 +368,37 @@ export default function AdminDashboard() {
               <div className="form-group">
                 <label>Hero Image</label>
                 <div>
-                  <input
-                    type="file"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        setPendingFiles(prev => ({
-                          ...prev,
-                          heroImage: file
-                        }));
-                      }
-                    }}
-                  />
-                  <div className="image-preview">
-                    {(pendingFiles.heroImage || selectedProduct?.heroImage?.src) && (
-                      <img
-                        src={pendingFiles.heroImage ? URL.createObjectURL(pendingFiles.heroImage) : selectedProduct.heroImage.src}
-                        alt="Hero preview"
-                        style={{ maxHeight: '100px' }}
-                      />
-                    )}
+                  <div className="form-group-section">
+                    <input
+                      type="text"
+                      placeholder="Image Path (e.g., hero/main)"
+                      value={selectedProduct.heroImagePath || ''}
+                      onChange={(e) => setSelectedProduct({
+                        ...selectedProduct,
+                        heroImagePath: e.target.value
+                      })}
+                    />
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          setPendingFiles(prev => ({
+                            ...prev,
+                            heroImage: file
+                          }));
+                        }
+                      }}
+                    />
+                    <div className="image-preview">
+                      {(pendingFiles.heroImage || selectedProduct?.heroImage?.src) && (
+                        <img
+                          src={pendingFiles.heroImage ? URL.createObjectURL(pendingFiles.heroImage) : selectedProduct.heroImage.src}
+                          alt="Hero preview"
+                          style={{ maxHeight: '100px' }}
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -444,6 +408,15 @@ export default function AdminDashboard() {
                 <div>
                   <div className='form-group-section'>
                     <h4>Video</h4>
+                    <input
+                      type="text"
+                      placeholder="Image Path (e.g., howto/video)"
+                      value={selectedProduct.videoImagePath || ''}
+                      onChange={(e) => setSelectedProduct({
+                        ...selectedProduct,
+                        videoImagePath: e.target.value
+                      })}
+                    />
                     <input
                       type="file"
                       onChange={(e) => {
@@ -472,9 +445,9 @@ export default function AdminDashboard() {
                       })}
                     />
                     <div className="image-preview">
-                      {(pendingFiles.howToVideo || selectedProduct?.howTo?.video?.src) && (
+                      {(pendingFiles.howToVideo || selectedProduct?.howTo?.video?.image) && (
                         <img
-                          src={pendingFiles.howToVideo ? URL.createObjectURL(pendingFiles.howToVideo) : selectedProduct.howTo.video.src}
+                          src={pendingFiles.howToVideo ? URL.createObjectURL(pendingFiles.howToVideo) : selectedProduct.howTo.video.image}
                           alt="Video preview"
                           style={{ maxHeight: '100px' }}
                         />
@@ -483,6 +456,15 @@ export default function AdminDashboard() {
                   </div>
                   <div className='form-group-section'>
                     <h4>Schematic</h4>
+                    <input
+                      type="text"
+                      placeholder="Image Path (e.g., howto/schematic)"
+                      value={selectedProduct.schematicImagePath || ''}
+                      onChange={(e) => setSelectedProduct({
+                        ...selectedProduct,
+                        schematicImagePath: e.target.value
+                      })}
+                    />
                     <input
                       type="file"
                       onChange={(e) => {
@@ -496,9 +478,9 @@ export default function AdminDashboard() {
                       }}
                     />
                     <div className="image-preview">
-                      {(pendingFiles.howToSchematic || selectedProduct?.howTo?.schematic?.src) && (
+                      {(pendingFiles.howToSchematic || selectedProduct?.howTo?.schematic?.image) && (
                         <img
-                          src={pendingFiles.howToSchematic ? URL.createObjectURL(pendingFiles.howToSchematic) : selectedProduct.howTo.schematic.src}
+                          src={pendingFiles.howToSchematic ? URL.createObjectURL(pendingFiles.howToSchematic) : selectedProduct.howTo.schematic.image}
                           alt="Schematic preview"
                           style={{ maxHeight: '100px' }}
                         />
@@ -512,20 +494,30 @@ export default function AdminDashboard() {
                 <label>Specs</label>
                 <div>
                   <div className='form-group-section'>
-                    <h4>Info (one per line)</h4>
-                    <textarea
-                      value={Array.isArray(selectedProduct.specs?.info) ? selectedProduct.specs.info.join('\n') : ''}
+                    <h4>Info (comma-separated)</h4>
+                    <input
+                      type="text"
+                      value={Array.isArray(selectedProduct.specs?.info) ? selectedProduct.specs.info.join(', ') : ''}
                       onChange={(e) => setSelectedProduct({
                         ...selectedProduct,
                         specs: {
                           ...selectedProduct.specs,
-                          info: e.target.value.split('\n').filter(line => line.trim())
+                          info: e.target.value.split(',').map(item => item.trim())
                         }
                       })}
                     />
                   </div>
                   <div className='form-group-section'>
                     <h4>Images</h4>
+                    <input
+                      type="text"
+                      placeholder="Image Path (e.g., specs/main)"
+                      value={selectedProduct.specsImagePath || ''}
+                      onChange={(e) => setSelectedProduct({
+                        ...selectedProduct,
+                        specsImagePath: e.target.value
+                      })}
+                    />
                     <input
                       type="file"
                       multiple
@@ -543,162 +535,13 @@ export default function AdminDashboard() {
                       {[...(pendingFiles.specsImages || []), ...(selectedProduct?.specs?.images || [])].map((file, index) => (
                         <img
                           key={index}
-                          src={file instanceof File ? URL.createObjectURL(file) : file.src}
+                          src={file instanceof File ? URL.createObjectURL(file) : file.image}
                           alt={`Spec preview ${index + 1}`}
                           style={{ maxHeight: '100px', marginRight: '8px' }}
                         />
                       ))}
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Options</label>
-                {Array.isArray(selectedProduct.options) ? selectedProduct.options.map((option, optionIndex) => (
-                  <div key={optionIndex}>
-                    <div className="form-group-section">
-                      <label htmlFor={`option-name-${optionIndex}`}>Name</label>
-                      <input
-                        type="text"
-                        id={`option-name-${optionIndex}`}
-                        value={option.name || ''}
-                        onChange={(e) => {
-                          const updatedOptions = [...selectedProduct.options];
-                          updatedOptions[optionIndex].name = e.target.value;
-                          setSelectedProduct({...selectedProduct, options: updatedOptions});
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="form-group-section">
-                      <label htmlFor={`option-groupName-${optionIndex}`}>Group Name</label>
-                      <input
-                        type="text"
-                        id={`option-groupName-${optionIndex}`}
-                        value={option.groupName || ''}
-                        onChange={(e) => {
-                          const updatedOptions = [...selectedProduct.options];
-                          updatedOptions[optionIndex].groupName = e.target.value;
-                          setSelectedProduct({...selectedProduct, options: updatedOptions});
-                        }}
-                        required
-                      />
-                    </div>
-                    <div className="form-group-section">
-                      <h4>Size</h4>
-                      {Array.isArray(option.sizes) ? option.sizes.map((size, sizeIndex) => (
-                        <div key={sizeIndex} className="size-inputs-container">
-                          <input
-                            type="text"
-                            placeholder="Name"
-                            value={size.name || ''}
-                            onChange={(e) => {
-                              const updatedOptions = [...selectedProduct.options];
-                              updatedOptions[optionIndex].sizes[sizeIndex].name = e.target.value;
-                              setSelectedProduct({...selectedProduct, options: updatedOptions});
-                            }}
-                          />
-                          <input
-                            type="number"
-                            placeholder="Price"
-                            value={size.price || ''}
-                            onChange={(e) => {
-                              const updatedOptions = [...selectedProduct.options];
-                              updatedOptions[optionIndex].sizes[sizeIndex].price = parseFloat(e.target.value) || '';
-                              setSelectedProduct({...selectedProduct, options: updatedOptions});
-                            }}
-                          />
-                          <input
-                            type="number"
-                            placeholder="Stock"
-                            value={size.stock || ''}
-                            onChange={(e) => {
-                              const updatedOptions = [...selectedProduct.options];
-                              updatedOptions[optionIndex].sizes[sizeIndex].stock = parseInt(e.target.value, 10) || '';
-                              setSelectedProduct({...selectedProduct, options: updatedOptions});
-                            }}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const updatedOptions = [...selectedProduct.options];
-                              updatedOptions[optionIndex].sizes = [...(updatedOptions[optionIndex].sizes || []), { name: '', price: '', stock: '' }];
-                              setSelectedProduct({...selectedProduct, options: updatedOptions});
-                            }}
-                            className="add-size button white"
-                          >
-                            +
-                          </button>
-                        </div>
-                      )) : null}
-                    </div>
-                    <div className="form-group-section">
-                      <div className="in-stock-container">
-                        <h4>In Stock</h4>
-                        <input
-                          type="checkbox"
-                          id={`option-inStock-${optionIndex}`}
-                          checked={option.inStock || false}
-                          onChange={(e) => {
-                            const updatedOptions = [...selectedProduct.options];
-                            updatedOptions[optionIndex].inStock = e.target.checked;
-                            setSelectedProduct({...selectedProduct, options: updatedOptions});
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group-section">
-                      <label>Images</label>
-                      <input
-                        type="file"
-                        multiple
-                        onChange={(e) => {
-                          const files = Array.from(e.target.files);
-                          if (files.length > 0) {
-                            setPendingFiles(prev => ({
-                              ...prev,
-                              optionImages: {
-                                ...prev.optionImages,
-                                [optionIndex]: [...(prev.optionImages[optionIndex] || []), ...files]
-                              }
-                            }));
-                          }
-                        }}
-                      />
-                      <div className="image-preview">
-                        {[...(pendingFiles.optionImages[optionIndex] || []), ...(option.images || [])].map((file, index) => (
-                          <img
-                            key={index}
-                            src={file instanceof File ? URL.createObjectURL(file) : file.src}
-                            alt={`Option preview ${index + 1}`}
-                            style={{ maxHeight: '100px', marginRight: '8px' }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )) : null}
-                <div className='add-option-container'>
-                  <h4>Add Option</h4>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedProduct({
-                        ...selectedProduct,
-                        options: [...(selectedProduct.options || []), { 
-                          name: '', 
-                          groupName: selectedProduct.options?.[0]?.groupName || '', 
-                          sizes: [{ name: '', price: '', stock: '' }], 
-                          inStock: true,
-                          images: [] 
-                        }]
-                      });
-                    }}
-                    className="add-option button white"
-                  >
-                    +
-                  </button>
                 </div>
               </div>
 

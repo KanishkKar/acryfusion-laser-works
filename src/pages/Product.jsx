@@ -7,59 +7,91 @@ export default function Product() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedSubCategory, setSelectedSubCategory] = useState('');
+  const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedName, setSelectedName] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
   const [currentSpecsSlide, setCurrentSpecsSlide] = useState(0);
   const [product, setProduct] = useState(null);
   const [imageSets, setImageSets] = useState({});
+  const [availableSizes, setAvailableSizes] = useState([]);
+  const [currentPrice, setCurrentPrice] = useState(0);
+  const [isInStock, setIsInStock] = useState(true);
 
   useEffect(() => {
     if (id) {
-      const currentProduct = getProductById(id);
-      setProduct(currentProduct);
-      
-      // Build imageSets from product data
-      if (currentProduct?.images) {
-        const sets = {};
-        currentProduct.images.forEach(category => {
-          if (category.subCategory) {
-            // Handle categories with subcategories
-            sets[category.category] = {};
-            category.subCategory.forEach(subCat => {
-              sets[category.category][subCat.category] = subCat.images.map(img => img.image);
-            });
-          } else {
-            // Handle simple categories
-            sets[category.category] = category.images.map(img => img.image);
-          }
-        });
-        setImageSets(sets);
+      const fetchCurrentProduct = async () => {
+        const currentProduct = await getProductById(id);
+        setProduct(currentProduct);
         
-        // Set initial selected category
-        if (currentProduct.images.length > 0) {
-          setSelectedCategory(currentProduct.images[0].category);
-          if (currentProduct.images[0].subCategory) {
-            setSelectedSubCategory(currentProduct.images[0].subCategory[0].category);
+        // Build imageSets from product data
+        if (currentProduct?.options) {
+          const sets = {};
+          const sizes = new Set();
+          
+          currentProduct.options.forEach(option => {
+            // Group by groupName
+            if (!sets[option.groupName]) {
+              sets[option.groupName] = {};
+            }
+            
+            // Add images under name
+            sets[option.groupName][option.name] = option.images.map(img => img.image);
+            
+            // Collect unique sizes from the sizes array
+            if (option.sizes) {
+              option.sizes.forEach(size => {
+                if (size.name) sizes.add(size.name);
+              });
+            }
+          });
+          
+          setImageSets(sets);
+          setAvailableSizes(Array.from(sizes));
+          
+          // Set initial selections
+          if (currentProduct.options.length > 0) {
+            const firstOption = currentProduct.options[0];
+            setSelectedGroup(firstOption.groupName);
+            setSelectedName(firstOption.name);
+            if (firstOption.sizes && firstOption.sizes.length > 0) {
+              setSelectedSize(firstOption.sizes[0].name);
+              setCurrentPrice(firstOption.sizes[0].price || 0);
+              setIsInStock(firstOption.sizes[0].stock > 0);
+            }
           }
         }
-      }
+      };
+
+      fetchCurrentProduct();
     }
   }, [id]);
 
   let currentImages = [];
-  if (selectedCategory && imageSets[selectedCategory]) {
-    if (typeof imageSets[selectedCategory] === 'object' && !Array.isArray(imageSets[selectedCategory])) {
-      // Handle subcategories
-      currentImages = imageSets[selectedCategory][selectedSubCategory] || [];
-    } else {
-      // Handle simple categories
-      currentImages = imageSets[selectedCategory] || [];
-    }
+  if (selectedGroup && imageSets[selectedGroup] && selectedName) {
+    currentImages = imageSets[selectedGroup][selectedName] || [];
   }
 
   useEffect(() => {
     setCurrentImageIndex(0);
-  }, [selectedCategory, selectedSubCategory]);
+  }, [selectedGroup, selectedName, selectedSize]);
+
+  // Update price and stock status when selections change
+  useEffect(() => {
+    if (product?.options) {
+      const matchingOption = product.options.find(option => 
+        option.groupName === selectedGroup &&
+        option.name === selectedName
+      );
+      
+      if (matchingOption?.sizes) {
+        const matchingSize = matchingOption.sizes.find(size => size.name === selectedSize);
+        if (matchingSize) {
+          setCurrentPrice(matchingSize.price || 0);
+          setIsInStock(matchingSize.stock > 0);
+        }
+      }
+    }
+  }, [selectedGroup, selectedName, selectedSize, product]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % currentImages.length);
@@ -69,18 +101,19 @@ export default function Product() {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + currentImages.length) % currentImages.length);
   };
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-    if (imageSets[category] && typeof imageSets[category] === 'object' && !Array.isArray(imageSets[category])) {
-      // If the category has subcategories, select the first one
-      setSelectedSubCategory(Object.keys(imageSets[category])[0]);
-    } else {
-      setSelectedSubCategory('');
+  const handleGroupClick = (group) => {
+    setSelectedGroup(group);
+    if (imageSets[group]) {
+      setSelectedName(Object.keys(imageSets[group])[0]);
     }
   };
 
-  const handleSubCategoryClick = (subCategory) => {
-    setSelectedSubCategory(subCategory);
+  const handleNameClick = (name) => {
+    setSelectedName(name);
+  };
+
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
   };
 
   const handleHowToClick = () => {
@@ -131,41 +164,65 @@ export default function Product() {
             <div className="product-info">
               <div className="product-options-container">
                 <div className="product-options">
-                  {product.images.map((category) => (
+                  {Object.keys(imageSets).map((group) => (
                     <button 
                       type='button'
-                      key={category.category}
-                      className={`option button ${selectedCategory === category.category ? 'active' : ''}`}
-                      onClick={() => handleCategoryClick(category.category)}
+                      key={group}
+                      className={`option button ${selectedGroup === group ? 'active' : ''}`}
+                      onClick={() => handleGroupClick(group)}
                     >
-                      {category.category}
+                      {group}
                     </button>
                   ))}
                 </div>
 
-                {selectedCategory && imageSets[selectedCategory] && 
-                 typeof imageSets[selectedCategory] === 'object' && 
-                 !Array.isArray(imageSets[selectedCategory]) && (
+                {selectedGroup && imageSets[selectedGroup] && 
+                 product?.options?.some(option => 
+                   option.groupName === selectedGroup && 
+                   option.name !== selectedGroup
+                 ) && (
                   <div className="product-options subcategory-options">
-                    {Object.keys(imageSets[selectedCategory]).map((subCategory) => (
+                    {Object.keys(imageSets[selectedGroup]).map((name) => (
                       <button 
                         type='button'
-                        key={subCategory}
-                        className={`option button ${selectedSubCategory === subCategory ? 'active' : ''}`}
-                        onClick={() => handleSubCategoryClick(subCategory)}
+                        key={name}
+                        className={`option button ${selectedName === name ? 'active' : ''}`}
+                        onClick={() => handleNameClick(name)}
                       >
-                        {subCategory}
+                        {name}
                       </button>
                     ))}
                   </div>
                 )}
               </div>
+              {availableSizes.length > 0 && (
+                <div className="sizes-container">
+                  {availableSizes.map((size) => (
+                    <button 
+                      type='button'
+                      key={size}
+                      className={`size button white ${selectedSize === size ? 'active' : ''}`}
+                      onClick={() => handleSizeClick(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              )}
               <div className="price-container">
-                <p className="price">₹{product.price}</p>
-                <button className="buy button black">buy</button>
+                <p className="price">₹{currentPrice}</p>
+                <button 
+                  className="buy button black" 
+                  disabled={!isInStock}
+                >
+                  {isInStock ? 'Buy Now' : 'Out of Stock'}
+                </button>
+                {!isInStock && (
+                  <p className="out-of-stock-message">Product is currently out of stock</p>
+                )}
                 <p className="shipping-disclaimer">Free Shipping</p>
               </div>
-              {product.howTo && (
+              {(product.howTo?.video?.image || product.howTo?.schematic?.image) && (
                 <div className="how-to-container">
                   <button className="how-to button black" onClick={handleHowToClick}>
                     How To

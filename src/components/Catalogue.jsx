@@ -39,13 +39,25 @@ const Catalogue = () => {
     fetchProducts();
   }, [searchQuery]);
 
+  const getLowestPrice = (product) => {
+    let lowestPrice = Infinity;
+    product.options?.forEach(option => {
+      option.sizes?.forEach(size => {
+        if (size.price && size.price < lowestPrice) {
+          lowestPrice = size.price;
+        }
+      });
+    });
+    return lowestPrice === Infinity ? 0 : lowestPrice;
+  };
+
   const sortProducts = (products) => {
     return [...products].sort((a, b) => {
       let comparison = 0;
       if (sortBy === 'price') {
-        comparison = Number(a.price) - Number(b.price);
-      } else if (sortBy === 'rating') {
-        comparison = b.rating - a.rating;
+        comparison = getLowestPrice(a) - getLowestPrice(b);
+      } else if (sortBy === 'category') {
+        comparison = String(a.category).localeCompare(String(b.category));
       } else {
         comparison = String(a[sortBy]).localeCompare(String(b[sortBy]));
       }
@@ -102,7 +114,6 @@ const Catalogue = () => {
           >
             <option value="name">Name</option>
             <option value="price">Price</option>
-            <option value="rating">Rating</option>
             <option value="category">Category</option>
           </select>
           <button 
@@ -117,12 +128,12 @@ const Catalogue = () => {
       <div className="products-grid">
         {paginatedProducts.map((product) => (
           <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.name} />
+            <img src={product.heroImage?.src} alt={product.name} />
             <h3>{product.name}</h3>
-            <p className="price">₹{product.price}</p>
+            <p className="price">₹{getLowestPrice(product)}</p>
             <p className="description">{product.description}</p>
             <div className="product-tags">
-              {product.tags.map((tag, index) => (
+              {product.tags?.map((tag, index) => (
                 <span key={index} className="tag">{tag}</span>
               ))}
             </div>

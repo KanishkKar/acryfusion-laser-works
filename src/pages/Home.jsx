@@ -6,14 +6,20 @@ import './Home.css';
 export default function Home() {
   const [current, setCurrent] = useState(0);
   const [topProducts, setTopProducts] = useState([]);
+  const [imageErrors, setImageErrors] = useState({});
 
   useEffect(() => {
     const fetchTopProducts = async () => {
-      const products = await getTopProducts(); // Update to await the async function
+      const products = await getTopProducts();
       setTopProducts(products);
     };
     fetchTopProducts();
   }, []);
+
+  const handleImageError = (productId) => {
+    console.error(`Failed to load image for product ${productId}`);
+    setImageErrors(prev => ({ ...prev, [productId]: true }));
+  };
 
   const prevCard = () => setCurrent((current - 1 + topProducts.length) % topProducts.length);
   const nextCard = () => setCurrent((current + 1) % topProducts.length);
@@ -29,14 +35,33 @@ export default function Home() {
               else if (idx === (current - 1 + topProducts.length) % topProducts.length) className += ' prev';
               else if (idx === (current + 1) % topProducts.length) className += ' next';
               else className += ' hidden';
+              
+              const imageUrl = product.heroImage?.src;
+              
               return (
-                <div className={className} key={idx} style={{ backgroundImage: `url(${product.image})` }}>
+                <div 
+                  className={className} 
+                  key={idx} 
+                  style={{ 
+                    backgroundImage: imageErrors[product.id] 
+                      ? 'none' 
+                      : `url(${imageUrl})` 
+                  }}
+                >
                   <div className="hero-carousel-overlay">
                     <div className="hero-carousel-title">{product.title}</div>
                     {idx === current && (
                       <Link to={`/product/${product.id}`} className="hero-carousel-buy button white">Buy Now</Link>
                     )}
                   </div>
+                  {imageUrl && !imageErrors[product.id] && (
+                    <img 
+                      src={imageUrl} 
+                      alt={product.heroImage?.alt || product.title}
+                      style={{ display: 'none' }}
+                      onError={() => handleImageError(product.id)}
+                    />
+                  )}
                 </div>
               );
             })}

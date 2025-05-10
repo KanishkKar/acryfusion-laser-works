@@ -1,28 +1,47 @@
-import productsData from '../data/products.json';
+const apiUrl = import.meta.env.VITE_API_URL;
 
-const API_URL = 'http://localhost:3001';
+// Helper function to get file URL from Google Drive
+const getFileUrl = (path) => {
+  if (!path) {
+    console.error('Empty path provided to getFileUrl');
+    return '';
+  }
+  const url = `${apiUrl}/api/files/${path}`;
+
+  return url;
+};
+
+// Helper function to process product data
+const processProductData = (product) => {
+  if (!product) return null;
+  return product; // No need to process URLs since they're already web content links
+};
 
 export const getTopProducts = async () => {
+  console.log(apiUrl);
   try {
-    const response = await fetch(`${API_URL}/products`);
+    const response = await fetch(`${apiUrl}/products`);
     if (!response.ok) {
-      throw new Error('Failed to fetch top products');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     const products = await response.json();
-    return products.filter(product => product.tags.includes("EDITOR'S CHOICE")).slice(0, 3);
+    return products
+      .filter(product => product.tags?.includes("EDITOR'S CHOICE"))
+      .map(processProductData);
   } catch (error) {
     console.error('Error fetching top products:', error);
-    throw error;
+    return [];
   }
 };
 
 export const getProductById = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/products/${id}`);
+    const response = await fetch(`${apiUrl}/products/${id}`);
     if (!response.ok) {
       throw new Error('Failed to fetch product');
     }
-    return await response.json();
+    const product = await response.json();
+    return processProductData(product);
   } catch (error) {
     console.error('Error fetching product:', error);
     throw error;
@@ -31,11 +50,12 @@ export const getProductById = async (id) => {
 
 export const getAllProducts = async () => {
   try {
-    const response = await fetch(`${API_URL}/products`);
+    const response = await fetch(`${apiUrl}/products`);
     if (!response.ok) {
       throw new Error('Failed to fetch products');
     }
-    return await response.json();
+    const products = await response.json();
+    return products.map(processProductData);
   } catch (error) {
     console.error('Error fetching products:', error);
     throw error;
@@ -44,17 +64,12 @@ export const getAllProducts = async () => {
 
 export const searchProducts = async (searchString) => {
   try {
-    const response = await fetch(`${API_URL}/products?q=${encodeURIComponent(searchString)}`);
+    const response = await fetch(`${apiUrl}/products/search?q=${encodeURIComponent(searchString)}`);
     if (!response.ok) {
       throw new Error('Failed to search products');
     }
     const products = await response.json();
-    const searchLower = searchString.toLowerCase();
-    return products.filter(product => 
-      product.name.toLowerCase().includes(searchLower) ||
-      product.description.toLowerCase().includes(searchLower) ||
-      product.category.toLowerCase().includes(searchLower)
-    );
+    return products.map(processProductData);
   } catch (error) {
     console.error('Error searching products:', error);
     throw error;
@@ -64,7 +79,7 @@ export const searchProducts = async (searchString) => {
 // Create a new product
 export const createProduct = async (product) => {
   try {
-    const response = await fetch(`${API_URL}/products`, {
+    const response = await fetch(`${apiUrl}/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +99,7 @@ export const createProduct = async (product) => {
 // Update an existing product
 export const updateProduct = async (id, product) => {
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, {
+    const response = await fetch(`${apiUrl}/products/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +119,7 @@ export const updateProduct = async (id, product) => {
 // Delete a product
 export const deleteProduct = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/products/${id}`, {
+    const response = await fetch(`${apiUrl}/products/${id}`, {
       method: 'DELETE',
     });
     if (!response.ok) {
@@ -123,7 +138,7 @@ export const uploadFile = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${API_URL}/api/upload`, {
+    const response = await fetch(`${apiUrl}/api/upload`, {
       method: 'POST',
       body: formData,
     });

@@ -1,6 +1,7 @@
 # ========================
 # Node.js dependencies
 /node_modules
+/server/node_modules
 
 # ========================
 # Build outputs
@@ -11,6 +12,11 @@
 # Environment variables
 .env
 .env.*.local
+.evv.*
+
+# ========================
+# Environment configurations
+/config
 
 # ========================
 # Log files

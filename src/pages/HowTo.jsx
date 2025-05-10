@@ -23,12 +23,17 @@ export default function HowTo() {
 
   useEffect(() => {
     if (id) {
-      const currentProduct = getProductById(id);
-      if (!currentProduct) {
-        navigate('/');
-        return;
-      }
-      setProduct(currentProduct);
+      const fetchCurrentProduct = async () => {
+        const currentProduct = await getProductById(id);
+        if (!currentProduct) {
+          navigate('/');
+          return;
+        }
+
+        setProduct(currentProduct);
+      };
+      
+      fetchCurrentProduct();
     }
   }, [id, navigate]);
 
@@ -48,14 +53,14 @@ export default function HowTo() {
     <div>
       <main>
         <div>
-          {product.howTo.video && (
+          {product.howTo.video?.image && (
             <section className="video-section">
               <img src={product.howTo.video.image} alt="Video thumbnail" className="video-image" />
               <button className='video button' onClick={handleVideoClick}>video</button>
             </section>
           )}
 
-          {product.howTo.schematic && (
+          {product.howTo.schematic?.image && (
             <section className="schematic-section">
               <img src={product.howTo.schematic.image} alt="Soldering schematic" className="schematic-image" />
               <button className="download button" onClick={handleDownload}>download</button>

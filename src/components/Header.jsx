@@ -18,7 +18,6 @@ export default function Header() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      console.log(searchQuery);
       navigate(`/explore?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
