@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useCart } from '../contexts/CartContext';
+import cartIcon from '../assets/icons/cart-icon.svg';
 import './Header.css';
 
 export default function Header() {
   const location = useLocation();
   const { logout } = useAuth();
+  const { cart, openCart } = useCart();
   const isAdminPage = location.pathname.startsWith('/admin');
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -47,6 +50,10 @@ export default function Header() {
           <nav className="header">
             <Link className="nav black" to="/explore">Explore</Link>
           </nav>
+          <button className="cart button" onClick={openCart}>
+            <img src={cartIcon} alt="cart" />
+            {cart.length > 0 && <span className="cart-count">{cart.reduce((sum, i) => sum + i.quantity, 0)}</span>}
+          </button>
         </div>
       ) : (
         <button type="button" onClick={handleLogout} className="header button black">Logout</button>

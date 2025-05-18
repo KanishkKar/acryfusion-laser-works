@@ -3,6 +3,7 @@ const { google } = require('googleapis');
 const cors = require('cors');
 const path = require('path');
 const fileUpload = require('express-fileupload');
+const { parse } = require('csv-parse/sync');
 
 const app = express();
 const port = 3001;
@@ -37,6 +38,22 @@ const sheetToObjects = (values) => {
   });
 };
 
+const parseCSV = (csvString) => {
+  if (!csvString) return [];
+  try {
+    // Parse the string as CSV, trimming whitespace and handling quotes
+    const parsed = parse(csvString, {
+      columns: false,  // Don't use headers
+      skip_empty_lines: true,
+      trim: true,  // Trim whitespace around fields
+    });
+    return parsed.flat();  // Flatten the array of arrays into a single array
+  } catch (error) {
+    console.error('Error parsing CSV string:', error);
+    return [];  // Return empty array on error
+  }
+};
+
 // Helper function to process product data
 const processProductData = async (product, images, options) => {
   // Process hero image
@@ -51,7 +68,7 @@ const processProductData = async (product, images, options) => {
 
   // Process specs images
   const specs = {
-    info: product.specs_info ? product.specs_info.split(',').map(item => item.trim()) : [],
+    info: parseCSV(product.specs_info),
     images: []
   };
 
@@ -88,51 +105,54 @@ const processProductData = async (product, images, options) => {
   };
   
   // Process options
-  const productOptions = await Promise.all(options
+  const productOptions = options
     .filter(opt => opt.product_id === product.product_id)
     .reduce((acc, opt) => {
-      const existingOption = acc.find(o => 
-        o.groupName === opt.group_name && 
+      const existingOption = acc.find(o =>
+        o.groupName === opt.group_name &&
         o.name === opt.name
       );
 
+      // Find images for this size (by image_path)
+      const sizeImages = images
+        .filter(img =>
+          img.product_id === product.product_id &&
+          img.image_path === opt.image_path
+        )
+        .map(img => ({
+          file_id: img.file_id,
+          alt: img.label,
+          label: img.label
+        }));
+
+      const sizeObj = {
+        name: opt.size,
+        price: parseFloat(opt.price),
+        stock: parseInt(opt.stock) || 0,
+        images: sizeImages
+      };
+
       if (existingOption) {
-        existingOption.sizes.push({
-          name: opt.size,
-          price: parseFloat(opt.price),
-          stock: parseInt(opt.stock) || 0
-        });
+        existingOption.sizes.push(sizeObj);
       } else {
         acc.push({
           groupName: opt.group_name,
           name: opt.name,
-          sizes: [{
-            name: opt.size,
-            price: parseFloat(opt.price),
-            stock: parseInt(opt.stock) || 0
-          }],
-          inStock: opt.in_stock === 'true',
-          images: images
-            .filter(img => 
-              img.product_id === product.product_id && 
-              img.image_path === opt.image_path
-            )
-            .map(img => ({
-              file_id: img.file_id,
-              alt: img.label,
-              label: img.label
-            }))
+          sizes: [sizeObj],
+          inStock: opt.in_stock === 'true'
         });
       }
       return acc;
-    }, []));
+    }, []);
 
-  // Process option images
+  // Process size images (resolve file URLs)
   for (const option of productOptions) {
-    option.images = await Promise.all(option.images.map(async img => ({
-      ...img,
-      image: await getFileUrl(img.file_id)
-    })));
+    for (const size of option.sizes) {
+      size.images = await Promise.all(size.images.map(async img => ({
+        ...img,
+        image: await getFileUrl(img.file_id)
+      })));
+    }
   }
 
   return {
@@ -140,8 +160,8 @@ const processProductData = async (product, images, options) => {
     name: product.product_name,
     description: product.product_description,
     title: product.product_title,
-    tags: product.tags ? product.tags.split(',').map(tag => tag.trim()) : [],
-    pointers: product.pointers ? product.pointers.split(',').map(pointer => pointer.trim()) : [],
+    tags: parseCSV(product.tags), 
+    pointers: parseCSV(product.pointers), 
     details: product.details,
     specs,
     howTo,

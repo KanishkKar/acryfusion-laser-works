@@ -49,3 +49,36 @@
   font-size: 1rem;
   font-weight: 500;
 }
+
+.cart.button {
+  position: relative;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  margin-Left: 'auto';
+  align-items: 'center'; 
+  gap: '0.5rem'; 
+}
+
+.cart.button img {
+  width: 24px;
+  height: 24px;
+  display: block; /* Prevents extra space below images */
+} 
+
+.cart-count {
+  background: black;
+  color: white;
+  border-radius: 50%;
+  padding: 0.1rem 0.7rem;
+  font-size: 0.9rem;
+  margin-left: 0.2rem;
+  font-weight: 500;
+  min-width: 1.5em;
+  text-align: center;
+  display: inline-block;
+}

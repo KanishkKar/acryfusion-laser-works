@@ -288,10 +288,22 @@
   font-size: 14px;
   transition: all 0.3s ease;
 }
-
+.size.button.active {
+  background-color: black;
+  color: white;
+}
 .size-options {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin: 10px 0;
+}
+
+.product-details{
+  text-align: center;
+}
+
+.product-name{
+  margin: 0rem 2rem 2rem 2rem;
+  text-align: center;
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../services/productService';
+import { useCart } from '../contexts/CartContext';
 import './Product.css';
 
 export default function Product() {
@@ -12,86 +13,62 @@ export default function Product() {
   const [selectedSize, setSelectedSize] = useState('');
   const [currentSpecsSlide, setCurrentSpecsSlide] = useState(0);
   const [product, setProduct] = useState(null);
-  const [imageSets, setImageSets] = useState({});
   const [availableSizes, setAvailableSizes] = useState([]);
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isInStock, setIsInStock] = useState(true);
+  const { cart, addToCart, updateQuantity, openCart } = useCart();
+
+  // Helper to get all unique sizes for the current group/name
+  const getSizesForCurrent = (options, group, name) => {
+    const option = options?.find(
+      (o) => o.groupName === group && o.name === name
+    );
+    return option?.sizes?.map((s) => s.name) || [];
+  };
 
   useEffect(() => {
     if (id) {
       const fetchCurrentProduct = async () => {
         const currentProduct = await getProductById(id);
         setProduct(currentProduct);
-        
-        // Build imageSets from product data
-        if (currentProduct?.options) {
-          const sets = {};
-          const sizes = new Set();
-          
-          currentProduct.options.forEach(option => {
-            // Group by groupName
-            if (!sets[option.groupName]) {
-              sets[option.groupName] = {};
-            }
-            
-            // Add images under name
-            sets[option.groupName][option.name] = option.images.map(img => img.image);
-            
-            // Collect unique sizes from the sizes array
-            if (option.sizes) {
-              option.sizes.forEach(size => {
-                if (size.name) sizes.add(size.name);
-              });
-            }
-          });
-          
-          setImageSets(sets);
-          setAvailableSizes(Array.from(sizes));
-          
-          // Set initial selections
-          if (currentProduct.options.length > 0) {
-            const firstOption = currentProduct.options[0];
-            setSelectedGroup(firstOption.groupName);
-            setSelectedName(firstOption.name);
-            if (firstOption.sizes && firstOption.sizes.length > 0) {
-              setSelectedSize(firstOption.sizes[0].name);
-              setCurrentPrice(firstOption.sizes[0].price || 0);
-              setIsInStock(firstOption.sizes[0].stock > 0);
-            }
+        if (currentProduct?.options?.length > 0) {
+          const firstOption = currentProduct.options[0];
+          setSelectedGroup(firstOption.groupName);
+          setSelectedName(firstOption.name);
+          if (firstOption.sizes && firstOption.sizes.length > 0) {
+            setSelectedSize(firstOption.sizes[0].name);
+            setCurrentPrice(firstOption.sizes[0].price || 0);
+            setIsInStock(firstOption.sizes[0].stock > 0);
+            setAvailableSizes(firstOption.sizes.map((s) => s.name));
           }
         }
       };
-
       fetchCurrentProduct();
     }
   }, [id]);
 
-  let currentImages = [];
-  if (selectedGroup && imageSets[selectedGroup] && selectedName) {
-    currentImages = imageSets[selectedGroup][selectedName] || [];
-  }
+  // Find the current option and size object
+  const currentOption = product?.options?.find(
+    (o) => o.groupName === selectedGroup && o.name === selectedName
+  );
+  const currentSizeObj = currentOption?.sizes?.find((s) => s.name === selectedSize);
+  const currentImages = currentSizeObj?.images?.map((img) => img.image) || [];
 
   useEffect(() => {
     setCurrentImageIndex(0);
-  }, [selectedGroup, selectedName, selectedSize]);
+    // Update available sizes for the selected group/name
+    if (product && selectedGroup && selectedName) {
+      setAvailableSizes(getSizesForCurrent(product.options, selectedGroup, selectedName));
+    }
+  }, [selectedGroup, selectedName, product]);
 
   // Update price and stock status when selections change
   useEffect(() => {
-    if (product?.options) {
-      const matchingOption = product.options.find(option => 
-        option.groupName === selectedGroup &&
-        option.name === selectedName
-      );
-      
-      if (matchingOption?.sizes) {
-        const matchingSize = matchingOption.sizes.find(size => size.name === selectedSize);
-        if (matchingSize) {
-          setCurrentPrice(matchingSize.price || 0);
-          setIsInStock(matchingSize.stock > 0);
-        }
-      }
+    if (currentSizeObj) {
+      setCurrentPrice(currentSizeObj.price || 0);
+      setIsInStock(currentSizeObj.stock > 0);
     }
-  }, [selectedGroup, selectedName, selectedSize, product]);
+  }, [currentSizeObj]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % currentImages.length);
@@ -103,13 +80,20 @@ export default function Product() {
 
   const handleGroupClick = (group) => {
     setSelectedGroup(group);
-    if (imageSets[group]) {
-      setSelectedName(Object.keys(imageSets[group])[0]);
+    const firstName = product.options.find((o) => o.groupName === group)?.name;
+    setSelectedName(firstName);
+    const firstOption = product.options.find((o) => o.groupName === group && o.name === firstName);
+    if (firstOption?.sizes?.length > 0) {
+      setSelectedSize(firstOption.sizes[0].name);
     }
   };
 
   const handleNameClick = (name) => {
     setSelectedName(name);
+    const option = product.options.find((o) => o.groupName === selectedGroup && o.name === name);
+    if (option?.sizes?.length > 0) {
+      setSelectedSize(option.sizes[0].name);
+    }
   };
 
   const handleSizeClick = (size) => {
@@ -120,7 +104,22 @@ export default function Product() {
     navigate(`/product/${id}/how-to`);
   };
 
+  // Find if this product/option/size is in cart
+  const cartItem = cart.find(
+    (i) => i.id === product?.id && i.size === selectedSize && i.optionName === selectedName
+  );
+
   if (!product) return null;
+
+  const imageSets = product.options.reduce((acc, option) => {
+    if (!acc[option.groupName]) {
+      acc[option.groupName] = {};
+    }
+    if (!acc[option.groupName][option.name]) {
+      acc[option.groupName][option.name] = true;  // Using a placeholder value since we only need the keys for mapping
+    }
+    return acc;
+  }, {});
 
   return (
     <div>
@@ -162,7 +161,10 @@ export default function Product() {
               )}
             </div>
             <div className="product-info">
+              <div className='product-name'><h2>{product.name}</h2></div>
+
               <div className="product-options-container">
+
                 <div className="product-options">
                   {Object.keys(imageSets).map((group) => (
                     <button 
@@ -210,19 +212,68 @@ export default function Product() {
                 </div>
               )}
               <div className="price-container">
-                <p className="price">₹{currentPrice}</p>
-                <button 
-                  className="buy button black" 
-                  disabled={!isInStock}
-                >
-                  {isInStock ? 'Buy Now' : 'Out of Stock'}
-                </button>
+                <p className="price">₹{currentPrice}
+                  {cartItem && (<span style={{ minWidth: 24, textAlign: 'center' }}>x {cartItem?.quantity}</span>)}
+                </p>
+                {isInStock && !cartItem && (
+                  <button
+                    className="buy button black"
+                    onClick={() => {
+                      addToCart({
+                        id: product.id,
+                        name: product.name,
+                        heroImage: product.heroImage?.src || (currentImages[0] || ''),
+                        price: currentPrice,
+                        size: selectedSize,
+                        optionName: selectedName, 
+                        quantity: 1,
+                      });
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                )}
+                {isInStock && cartItem && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center' }}>
+                    <button
+                      className="qty-btn"
+                      onClick={() => updateQuantity(product.id, selectedSize, selectedName, Math.max(1, cartItem.quantity - 1))}
+                    >
+                      -
+                    </button>
+                    <button
+                      className="buy button black"
+                      onClick={openCart}
+                    >
+                      Checkout
+                    </button>
+                    <button
+                      className="qty-btn"
+                      onClick={() => updateQuantity(product.id, selectedSize, selectedName, cartItem.quantity + 1)}
+                    >
+                      +
+                    </button>
+                    
+                  </div>
+                )}
+                {!isInStock && (
+                  <button className="buy button black" disabled>
+                    Out of Stock
+                  </button>
+                )}
                 {!isInStock && (
                   <p className="out-of-stock-message">Product is currently out of stock</p>
                 )}
                 <p className="shipping-disclaimer">Free Shipping</p>
               </div>
-              {(product.howTo?.video?.image || product.howTo?.schematic?.image) && (
+              {product.pointers && product.pointers.length > 0 && (
+                <div className="product-details">
+                  {product.pointers.map((pointer, index) => (
+                    <span key={index}>{pointer}. </span>
+                  ))}
+                </div>
+              )}
+              {(product.howTo?.video?.link || product.howTo?.schematic?.link) && (
                 <div className="how-to-container">
                   <button className="how-to button black" onClick={handleHowToClick}>
                     How To

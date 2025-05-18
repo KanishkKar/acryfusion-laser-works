@@ -51,7 +51,7 @@ export default function Home() {
                   <div className="hero-carousel-overlay">
                     <div className="hero-carousel-title">{product.title}</div>
                     {idx === current && (
-                      <Link to={`/product/${product.id}`} className="hero-carousel-buy button white">Buy Now</Link>
+                      <Link to={`/product/${product.id}`} className="hero-carousel-buy button white">Buy</Link>
                     )}
                   </div>
                   {imageUrl && !imageErrors[product.id] && (

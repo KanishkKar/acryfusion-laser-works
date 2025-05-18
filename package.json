@@ -5,9 +5,12 @@
   "type": "module",
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@tailwindcss/vite": "^4.1.6",
+    "csv-parse": "^5.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "tailwindcss": "^4.1.6"
   },
   "scripts": {
     "dev": "vite",
